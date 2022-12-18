@@ -10,15 +10,12 @@ public class Start : MonoBehaviour
 
     private void OnEnable()
     {
-        var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
 
-        startButton = rootVisualElement.Q<Button>("start-button");
-        startButton.RegisterCallback<ClickEvent>(ev => StartGame());
     }
 
     private void StartGame()
     {
-        SceneManager.LoadScene(1);
+        
     }
 
 }
