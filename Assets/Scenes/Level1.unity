@@ -1270,7 +1270,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Strike
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 0}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2009,7 +2009,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 0.7175481}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1001 &1984383618
@@ -2165,7 +2165,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Spare
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 0}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2435,7 +2435,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff2f79331474e68459208428649efc0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerBar: {fileID: 74076243}
+  chooseDir: {fileID: 2111583940}
+  play: 0
   power: 10000
+  currentPower: 0
+  powerVar: 0
 --- !u!114 &2111583940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2448,6 +2453,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552e71ad78f5d2e4c81e8a1291d0f840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Arrow: {fileID: 479391951}
+  rotSpeed: 50
 --- !u!114 &2111583941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2460,6 +2467,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46571c2ad769d894daa37f5abfaadb7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  strikeText: {fileID: 1542420299}
+  spareText: {fileID: 1995447910}
+  movBola: {fileID: 2111583939}
 --- !u!114 &2111583942
 MonoBehaviour:
   m_ObjectHideFlags: 0

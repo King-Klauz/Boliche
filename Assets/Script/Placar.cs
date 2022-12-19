@@ -21,7 +21,6 @@ public class Placar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(derrubados);
         if(play){
             Score.text = "derrubou " +derrubados+ " pinos.";
         }
