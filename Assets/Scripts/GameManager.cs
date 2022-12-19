@@ -24,13 +24,23 @@ public class GameManager : MonoBehaviour
     public int turn; // variavel para saber quantos turnos são permitidos até acabar o jogo
 
     [SerializeField]
-    float force; //força aplicada na bola
+    float power; //força aplicada na bola
+    float currentPower;
+    float powerVar;
+
+    [SerializeField]
+    private Slider powerBar;
+    [SerializeField]
+    private ChoosDirection chooseDir;
 
     bool isShooting; //flag para saber se a bola foi jogada 
     bool isGoingRight;
 
     void Start()
     {
+        currentPower = 0;
+        powerVar = power;
+        powerBar.maxValue = power;
         score = 0;
         isShooting = false;
         isGoingRight = true;
@@ -61,9 +71,9 @@ public class GameManager : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Return)) // Joga a bola depois de apertar "Enter" no teclado
         {
-            rb.AddForce(Vector3.forward * force);
-            ballAudio.Play();
-            isShooting = true;
+            //rb.AddForce(Vector3.forward * power);
+            
+            //isShooting = true;
         }
 
         if(Input.GetKey(KeyCode.Space)) // Reseta a posição de todos os pinos e da bola
@@ -76,7 +86,30 @@ public class GameManager : MonoBehaviour
             ResetPinos();
         }
 
-        if(!isShooting) //chama a função de jogar a bola se ela não estiver em movimento para frente
+        if (Input.GetKeyDown(KeyCode.Return) && !isShooting)
+        {
+            chooseDir.Chosen = true;
+        }
+
+        if (Input.GetKey(KeyCode.Return) && !isShooting)
+        {
+            PowerVariation();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Return) && !isShooting)
+        {
+            rb.freezeRotation = false;
+            chooseDir.ArrowObj.SetActive(false);
+            rb.AddForce(chooseDir.ArrowObj.transform.forward * currentPower);
+            isShooting = true;
+            ballAudio.Play();
+        }
+
+    }
+
+    void FixedUpdate()
+    {
+        if (!isShooting) //chama a função de jogar a bola se ela não estiver em movimento para frente
         {
             MoveBall();
         }
@@ -85,26 +118,18 @@ public class GameManager : MonoBehaviour
 
     void MoveBall() //FUNÇÃO PARA MOVIMENTAR A BOLA DE UM LADO PARA O OUTRO NA HORA DE JOGAR
     {
-        if(isGoingRight)
+        if (Input.GetKey("a") && transform.position.x < 2.0f && !isShooting)
         {
-            ball.transform.Translate(Vector3.right * Time.deltaTime);
-        }
-        else
-        {
-            ball.transform.Translate(Vector3.left * Time.deltaTime);
+            rb.MovePosition(rb.transform.position + (Vector3.right*Time.deltaTime));
         }
 
-        if (ball.transform.position.x > 0.5f)
+        if (Input.GetKey("d") && transform.position.x > -2.0f && !isShooting)
         {
-            isGoingRight = false;
+            rb.MovePosition(rb.transform.position + (Vector3.left * Time.deltaTime));
         }
 
-
-        if(ball.transform.position.x < -0.5f)
-        {
-            isGoingRight = true;
-        }
-
+        
+ 
     }
 
     void ContarPinosCaidos()
@@ -136,5 +161,23 @@ public class GameManager : MonoBehaviour
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero; ////nessas tres linhas resetamos a fisica da Bola para que ela fique estática, assim como no começo do turno
         ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         ball.transform.rotation = Quaternion.identity;
+        chooseDir.ArrowObj.SetActive(true);
+        chooseDir.Chosen = false;
+        powerBar.value = 0;
+        currentPower = 0;
+    }
+
+    public void PowerVariation()
+    {
+        currentPower += Time.deltaTime * powerVar;
+        if (currentPower >= power)
+        {
+            powerVar *= -1;
+        }
+        else if (currentPower <= 0)
+        {
+            powerVar *= -1;
+        }
+        powerBar.value = currentPower;
     }
 }
