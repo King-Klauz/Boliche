@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     GameObject ScorePlacar; //Pegando o Canvas do Placar normal
     GameObject ScorefinalPlacar; //Pegando Canvas do Placar Final
+    GameObject CollisionCamera;
+    GameObject SliderBar;
 
     GameObject[] pinos; //array para pegar todos os pinos do jogo e armazena-los juntos
     Vector3[] positionPinos; //array para pegar a posição de todos os pinos do jogo e reseta-los para um novo turno
@@ -45,6 +47,10 @@ public class GameManager : MonoBehaviour
         isShooting = false;
         isGoingRight = true;
         turn = 5;
+        CollisionCamera = GameObject.FindGameObjectWithTag("CollisionCamera");
+        CollisionCamera.SetActive(false);
+        SliderBar = GameObject.FindGameObjectWithTag("PowerBar");
+        SliderBar.SetActive(true);
         ScorefinalPlacar = GameObject.FindGameObjectWithTag("PlacarFinal");
         ScorefinalPlacar.SetActive(false);//desativando placar final da tela (ativar só no final do jogo)
         ScorePlacar = GameObject.FindGameObjectWithTag("Placar");
@@ -66,23 +72,24 @@ public class GameManager : MonoBehaviour
     {
         
         ContarPinosCaidos(); //função para contar quantos pontos o jogador fez
+        ChangeCamera();
         //turn--;
-              
-        
-        if (Input.GetKeyDown(KeyCode.Return)) // Joga a bola depois de apertar "Enter" no teclado
+
+
+        /*if (Input.GetKeyDown(KeyCode.Return)) // Joga a bola depois de apertar "Enter" no teclado
         {
             //rb.AddForce(Vector3.forward * power);
             
             //isShooting = true;
-        }
+        }*/
 
         if(Input.GetKey(KeyCode.Space)) // Reseta a posição de todos os pinos e da bola
         {
             score = 0;                //resetando os valores  
             isShooting = false;       //necessarios pra
             isGoingRight = true;      //uma nova jogada
-
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            CollisionCamera.SetActive(false);
+            SliderBar.SetActive(true);
             ResetPinos();
         }
 
@@ -102,6 +109,7 @@ public class GameManager : MonoBehaviour
             chooseDir.ArrowObj.SetActive(false);
             rb.AddForce(chooseDir.ArrowObj.transform.forward * currentPower);
             isShooting = true;
+            SliderBar.SetActive(false);
             ballAudio.Play();
         }
 
@@ -127,9 +135,6 @@ public class GameManager : MonoBehaviour
         {
             rb.MovePosition(rb.transform.position + (Vector3.left * Time.deltaTime));
         }
-
-        
- 
     }
 
     void ContarPinosCaidos()
@@ -179,5 +184,14 @@ public class GameManager : MonoBehaviour
             powerVar *= -1;
         }
         powerBar.value = currentPower;
+    }
+
+    public void ChangeCamera()
+    {
+        //print(rb.transform.position.z);
+        if (rb.transform.position.z > 4.0f)
+        {
+            CollisionCamera.SetActive(true);
+        }
     }
 }

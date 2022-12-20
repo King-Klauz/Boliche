@@ -8,10 +8,10 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
    public void startGame()
    {
-      SceneManager.LoadScene("Lane");
+        SceneManager.LoadScene("Lane");
    }
-    public void exitGame()
-    {
+   public void exitGame()
+   {
         Application.Quit();
-    }
+   }
 }
